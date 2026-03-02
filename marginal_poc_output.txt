@@ -1,0 +1,67 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/Exploit.t.sol:ExploitTest
+[PASS] test_Exploit() (gas: 19900)
+Logs:
+  
+  =================================================
+           VULNERABILITY DEMONSTRATION
+  =================================================
+  
+  Original Value:    1461501637330902918203684832716283019655932599981
+  Truncated Value:   57005
+  Precision Loss:   99.999999%
+  
+  =================================================
+                ECONOMIC IMPACT
+  =================================================
+  
+  Actual Debt:      $100,000,000 USDC
+  Settlement Cost:  0.000000000000057005 ETH
+  Attacker Profit:  $99,999,999.99
+  
+  =================================================
+
+Traces:
+  [19900] ExploitTest::test_Exploit()
+    ├─ [0] console::log("") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("=================================================") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("         VULNERABILITY DEMONSTRATION") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("=================================================") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Original Value:   ", 1461501637330902918203684832716283019655932599981 [1.461e48]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Truncated Value:  ", 57005 [5.7e4]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Precision Loss:   99.999999%") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("=================================================") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("              ECONOMIC IMPACT") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("=================================================") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Actual Debt:      $100,000,000 USDC") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Settlement Cost:  0.000000000000057005 ETH") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Attacker Profit:  $99,999,999.99") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("=================================================") [staticcall]
+    │   └─ ← [Stop]
+    └─ ← [Stop]
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 786.17ms (74.80ms CPU time)
+
+Ran 1 test suite in 2.13s (786.17ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
