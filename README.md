@@ -1,48 +1,41 @@
-# Marginal V1 Critical Vulnerability Disclosure
+# CVE-2026-4931: Marginal V1 Critical Integer Truncation
 
-**Author**: donnyoregon  
-**Date**: February 7, 2026  
-**Platform**: Cantina (stonewalled)  
-**Status**: Public Disclosure After Platform Failure
+**CVE:** CVE-2026-4931
+**CERT/CC Case:** VU#643748
+**Author:** Corrin Clark (donnyoregon / arch)
+**Report Date:** January 31, 2026
+**Target Protocol:** Marginal V1
+**Vulnerable Contract:** 0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7 (Ethereum Mainnet)
 
 ---
 
 ## Executive Summary
+This repository contains the forensic disclosure for a critical integer truncation vulnerability in Marginal V1. The vulnerability allowed an attacker to bypass protocol accounting via an unsafe downcast, enabling the settlement of multi-million dollar debt positions for practically zero cost. 
 
-A critical integer truncation vulnerability in Marginal V1 allows attackers to settle **$100 million in debt for $0.000000000000057005 ETH** - a 99.999999% precision loss exploit.
+Despite the protocol pausing operations and deploying the exact mitigation recommended in the initial report, the mediating bug bounty platform, Cantina, rejected the finding.
 
-**Contract**: `0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7` (Ethereum Mainnet)
+Following this rejection, the vulnerability and accompanying on-chain evidence were submitted to CERT/CC. After independent verification, CERT/CC confirmed the vulnerability and issued CVE-2026-4931.
 
----
+## Official CERT/CC Validation
+> "Smart contract Marginal v1 performs unsafe downcast, allowing attackers to settle a large debt position for a negligible asset cost." 
+> — *CERT/CC Vulnerability Note VU#643748*
 
 ## Vulnerability Details
 
 ### Root Cause
-
-The pool uses Q96 fixed-point (256 bits) internally but downcasts to `uint160` without overflow checks:
+The pool uses Q96 fixed-point (256 bits) internally but downcasts to `uint160` without overflow checks during price calculations:
 
 ```solidity
 uint160 price = uint160(sqrtPriceX96);  // NO BOUNDS CHECK
-```
-
-At the bytecode level this is just `AND 0xfff...fff` (20 bytes). When `sqrtPriceX96 > type(uint160).max`, the high bits are silently dropped.
-
-### Attack Vector
-
-1. Attacker uses flash loans to manipulate liquidity
-2. Push `sqrtPrice` past the uint160 limit
-3. Price overflows and wraps to near-zero
-4. Settle massive debt for fractional cost
-5. Drain the pool
-
----
-
-## Proof of Concept
-
-**Test Output (PASSING)**:
-
-```
-═══════════════════════════════════════════════════
+At the bytecode level, this functions as a simple bitmask (AND 0xfff...fff). When sqrtPriceX96 > type(uint160).max, the high bits are silently dropped. The transaction does not revert.
+Attack Vector
+Attacker utilizes standard flash loans to manipulate pool liquidity.
+The manipulation pushes the sqrtPrice past the uint160 limit.
+The price overflows and wraps to a near-zero integer.
+The attacker settles a massive debt position for a fractional cost, draining the pool.
+Proof of Concept Output
+To ensure proper testing for Web3 ethical bug bounty hunting, the execution was recorded on a local fork of the Ethereum Mainnet.
+Execution Trace Logs:═══════════════════════════════════════════════════
            VULNERABILITY DEMONSTRATION
 ═══════════════════════════════════════════════════
 
@@ -57,71 +50,22 @@ Precision Loss:    99.999999%
 Actual Debt:       $100,000,000 USDC
 Settlement Cost:   0.000000000000057005 ETH
 Attacker Profit:   $99,999,999.99
-```
-
-**Reproduction**:
-
-```bash
-tar -xzf marginal_poc.tar.gz
-forge test --match-test test_Exploit -vv
-```
-
----
-
-## Timeline
-
-| Date | Event |
-|------|-------|
-| Jan 31, 2026 | Vulnerability discovered and POC created |
-| Jan 31, 2026 | Submitted to Cantina |
-| Feb 2026 | **STONEWALLED** - No response, no rejection, just blocked |
-
----
-
-## The Cantina Problem
-
-Cantina markets itself as the "researcher-friendly" alternative to traditional bug bounty platforms. Their response to a **proven critical insolvency bug with video evidence**?
-
-**Complete silence and stonewalling.**
-
-No technical rebuttal. No rejection reason. Just blocked.
-
----
-
-## Recommended Fix
-
-```solidity
-// Current (vulnerable):
-uint160 price = uint160(sqrtPriceX96);
-
-// Fixed:
-require(sqrtPriceX96 <= type(uint160).max, "Price overflow");
-uint160 price = uint160(sqrtPriceX96);
-```
-
-Or use OpenZeppelin's SafeCast library.
-
----
-
-## Evidence Hash (SHA256)
-
-```
+The Timeline of Events
+January 31, 2026: Vulnerability reported to Cantina with full proof-of-concept.
+February 02, 2026: Marginal V1 pauses the protocol.
+February 04, 2026: Fix deployed to Ethereum Mainnet using the recommended SafeCast library in transaction 0xe021842bc2fe89865e41ef20aa84a8f649efe82d515fe3980b6dd160b564189a.
+February 10, 2026: Cantina rejects the finding.
+February 17, 2026: Cantina Support officially classifies the proxy upgrade as an "MEV swap." Forensic evidence submitted to CERT/CC.
+February 19, 2026: CERT/CC validates the vulnerability.
+March 28, 2026: CVE-2026-4931 is officially assigned.
+Repository Contents
+This repository serves as the public record for the vulnerability and the subsequent governance failure by the mediating platform.
+run_exploit.sh - Automated bash script containing the Foundry proof-of-concept demonstrating the complete extraction of pool liquidity on a mainnet fork.
+CANTINA_TRIAGE_LOG.md - Raw transcript of the Cantina triage process demonstrating their contradictory administrative classifications.
+CERT_VALIDATION.md - Documentation of the federal vulnerability assignment.
+/bytecode-analysis/ - Decompiled bytecode proving the addition of the SafeCast library in the patched implementation 0xd8be1b2571b7c43b77ff3ae87bc6f0a23fa224b8.
+Evidence Hash (SHA256)
+The following hash can be verified against the original Cantina submission file to establish the cryptographic timeline of the initial report:
 bb111bfc8f7d7194b93b0c5a5643842f09f1f94b448dfd8f56812ae6bb015368
-```
-
-This hash can be verified against the original Cantina submission file.
-
----
-
-## Severity Assessment
-
-| Factor | Rating |
-|--------|--------|
-| **Severity** | Critical |
-| **Likelihood** | High |
-| **Impact** | Complete pool drainage |
-| **Complexity** | Low (flash loan + math) |
-
----
-
-*This disclosure is made public after the bug bounty platform failed to respond through legitimate channels.*
+Statement on Bug Bounty Governance
+Bug bounty platforms exist to act as neutral arbiters between researchers and protocols. When a platform dismisses on-chain cryptographic proof of a remediation and rejects a federally validated CVE, the integrity of the ecosystem is compromised. This disclosure is published to ensure transparency and accountability in Web3 security practices.
