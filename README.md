@@ -1,11 +1,32 @@
 # CVE-2026-4931: Marginal V1 Critical Integer Truncation
 
-**CVE:** CVE-2026-4931
-**CERT/CC Case:** VU#643748
-**Author:** Corrin Clark (donnyoregon / arch)
-**Report Date:** January 31, 2026
-**Target Protocol:** Marginal V1
-**Vulnerable Contract:** 0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7 (Ethereum Mainnet)
+![CVSS 9.1 Critical](https://img.shields.io/badge/CVSS%20v3.1-9.1%20Critical-red)
+![CVE-2026-4931](https://img.shields.io/badge/CVE-2026--4931-critical)
+![CERT/CC VU#643748](https://img.shields.io/badge/CERT%2FCC-VU%23643748-blue)
+
+| Field | Value |
+|---|---|
+| **CVE** | CVE-2026-4931 |
+| **CVSS v3.1 Score** | **9.1 (Critical)** |
+| **CVSS v3.1 Vector** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N` |
+| **CERT/CC Case** | VU#643748 |
+| **Author** | Corrin Clark (donnyoregon / arch) |
+| **Report Date** | January 31, 2026 |
+| **Target Protocol** | Marginal V1 |
+| **Vulnerable Contract** | `0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7` (Ethereum Mainnet) |
+
+### CVSS v3.1 Metric Breakdown
+
+| Metric | Value | Rationale |
+|---|---|---|
+| Attack Vector (AV) | **Network** | Exploitable remotely via flash loan |
+| Attack Complexity (AC) | **Low** | Standard DeFi primitives, no special conditions |
+| Privileges Required (PR) | **None** | No account or on-chain permissions needed |
+| User Interaction (UI) | **None** | Fully autonomous attack |
+| Scope (S) | **Changed** | Attack impacts pool lenders beyond the attacker's own component |
+| Confidentiality (C) | **High** | Complete extraction of pooled funds |
+| Integrity (I) | **High** | Corrupts all protocol accounting |
+| Availability (A) | **None** | N/A (financial drain, not service disruption) |
 
 ---
 
