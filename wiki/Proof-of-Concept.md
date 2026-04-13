@@ -38,11 +38,11 @@ The test was run against a fork of Ethereum Mainnet and all output is preserved 
 | `videos/true dos marginal.webm` | Screen recording — debugger showing bytecode execution |
 | `screenshots/debugger_marginal_bug_proof.png` | Foundry debugger view of the vulnerable cast |
 | `screenshots/marginal_bug_proof.png` | Test output screenshot |
-| `screenshots/marginal logs2 .png` | Log output screenshot |
-| `screenshots/marginal logs3.png` | Additional log output |
-| `screenshots/marginal debug1.png` | Debugger step-through screenshot |
-| `screenshots/marginal 1.png` | Test run screenshot |
-| `screenshots/marginal 2.png` | Test run screenshot |
+| `screenshots/marginal_logs2.png` | Log output screenshot |
+| `screenshots/marginal_logs3.png` | Additional log output |
+| `screenshots/marginal_debug1.png` | Debugger step-through screenshot |
+| `screenshots/marginal_1.png` | Test run screenshot |
+| `screenshots/marginal_2.png` | Test run screenshot |
 
 ---
 
