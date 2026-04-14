@@ -1,0 +1,51 @@
+name: Publish Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      - name: Clone wiki repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.wiki.git" wiki-repo; then
+            echo "::error::Failed to clone the wiki repo. Create at least one wiki page manually via the GitHub UI first."
+            exit 1
+          fi
+
+      - name: Sync wiki pages
+        run: |
+          if ! ls wiki/*.md 1>/dev/null 2>&1; then
+            echo "::error::No .md files found in wiki/ directory."
+            exit 1
+          fi
+          # Remove old pages (except .git) so deletions are reflected
+          find wiki-repo -maxdepth 1 -type f -name '*.md' -delete
+          # Copy current wiki pages
+          cp wiki/*.md wiki-repo/
+
+      - name: Commit and push
+        run: |
+          cd wiki-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No wiki changes to publish."
+          else
+            git commit -m "Publish wiki from ${GITHUB_SHA::7}"
+            git push
+          fi
