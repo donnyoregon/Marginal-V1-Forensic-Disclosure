@@ -9,6 +9,8 @@
 | Field | Value |
 |---|---|
 | **CVE** | [CVE-2026-4931](https://nvd.nist.gov/vuln/detail/CVE-2026-4931) |
+| **Marginal GitHub Reference** | [MarginalProtocol/v1-core#10](https://github.com/MarginalProtocol/v1-core/issues/10) |
+| **GitHub Advisory Lookup** | [CVE-2026-4931 (GitHub Advisories)](https://github.com/advisories?query=CVE-2026-4931) |
 | **CWE** | CWE-197: Numeric Truncation Error |
 | **CVSS v3.1 Score** | **9.1 (Critical)** |
 | **CVSS v3.1 Vector** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N` |
@@ -169,6 +171,7 @@ Bug bounty platforms exist to act as neutral arbiters between researchers and pr
 
 - [CERT/CC Vulnerability Note VU#643748](https://kb.cert.org/vuls/id/643748)
 - [NVD — CVE-2026-4931](https://nvd.nist.gov/vuln/detail/CVE-2026-4931)
+- [GitHub Advisories — CVE-2026-4931](https://github.com/advisories?query=CVE-2026-4931)
 - [Patch Transaction on Etherscan](https://etherscan.io/tx/0xe021842bc2fe89865e41ef20aa84a8f649efe82d515fe3980b6dd160b564189a)
 - [Patched Implementation on Etherscan](https://etherscan.io/address/0xd8be1b2571b7c43b77ff3ae87bc6f0a23fa224b8)
 - [MarginalProtocol/v1-core#10](https://github.com/MarginalProtocol/v1-core/issues/10)
