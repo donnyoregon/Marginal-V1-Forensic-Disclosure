@@ -9,6 +9,8 @@
 | **CVSS v3.1 Score** | **9.1 (Critical)** |
 | **CVSS v3.1 Vector** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N` |
 | **CVE ID** | CVE-2026-4931 |
+| **Marginal GitHub Reference** | [MarginalProtocol/v1-core#10](https://github.com/MarginalProtocol/v1-core/issues/10) |
+| **GitHub Advisory Lookup** | [CVE-2026-4931 (GitHub Advisories)](https://github.com/advisories?query=CVE-2026-4931) |
 | **CERT/CC Case** | VU#643748 |
 | **CWE** | CWE-197: Numeric Truncation Error |
 | **Affected Contract** | `0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7` (Ethereum Mainnet) |
@@ -78,5 +80,6 @@ uint160 price = uint160(sqrtPriceX96);
 
 - [CERT/CC VU#643748](https://kb.cert.org/vuls/id/643748)
 - [NVD CVE-2026-4931](https://nvd.nist.gov/vuln/detail/CVE-2026-4931)
+- [GitHub Advisories — CVE-2026-4931](https://github.com/advisories?query=CVE-2026-4931)
 - [GitHub Issue MarginalProtocol/v1-core#10](https://github.com/MarginalProtocol/v1-core/issues/10)
 - [Forensic Disclosure Repository](https://github.com/donnyoregon/Marginal-V1-Forensic-Disclosure)
