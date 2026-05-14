@@ -16,6 +16,21 @@
 | **Affected Contract** | `0x3A6C55Ce74d940A9B5dDDE1E57eF6e70bC8757A7` (Ethereum Mainnet) |
 | **Status** | **Patched** (block 24,386,649 — Feb 04, 2026) |
 
+### ⚠️ Misclassification Notice
+
+Several vulnerability scanners and advisory feeds are incorrectly reporting CVE-2026-4931 as **"moderate severity"** or **"high attack complexity"**. This is wrong.
+
+| Attribute | Correct Value | Common Misclassification |
+|---|---|---|
+| **Severity** | **Critical (9.1)** | Moderate / High |
+| **Attack Complexity (AC)** | **Low (AC:L)** | High (AC:H) |
+
+**Why AC:L is correct:** The exploit uses only universally available flash-loan primitives. There are no race conditions, no information leakage requirements, no special timing, and no environmental preconditions. The overflow threshold is deterministic and easily reachable. This meets every criterion for Low complexity under the CVSS v3.1 specification.
+
+The authoritative sources — [CERT/CC VU#643748](https://kb.cert.org/vuls/id/643748) and [NVD CVE-2026-4931](https://nvd.nist.gov/vuln/detail/CVE-2026-4931) — both reflect CVSS 9.1 Critical with `AC:L`. A machine-readable OSV-format advisory with the correct scoring is included in this repository at [`.github/advisories/CVE-2026-4931.json`](.github/advisories/CVE-2026-4931.json).
+
+---
+
 ### CVSS v3.1 Metric Details
 
 ```
