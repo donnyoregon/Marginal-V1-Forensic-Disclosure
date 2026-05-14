@@ -85,6 +85,8 @@ At the bytecode level, this functions as a simple bitmask (`AND 0xfff...fff`). W
 | Integrity (I) | **High** | Corrupts all protocol accounting |
 | Availability (A) | **None** | N/A (financial drain, not service disruption) |
 
+> **⚠️ Misclassification Notice:** Some scanners and feeds incorrectly label this CVE as *moderate* or *high complexity*. The authoritative CVSS v3.1 score is **9.1 Critical** with **AC:L (Low)**. The exploit requires only standard flash-loan primitives — no race conditions, no special timing, no privileged information. See [`SECURITY.md`](SECURITY.md) and the machine-readable advisory at [`.github/advisories/CVE-2026-4931.json`](.github/advisories/CVE-2026-4931.json) for the authoritative classification.
+
 ---
 
 ## Proof of Concept Output
@@ -135,7 +137,8 @@ This repository serves as the public record for the vulnerability and the subseq
 
 | File / Directory | Description |
 |---|---|
-| [`SECURITY.md`](SECURITY.md) | Formal security advisory with CVSS breakdown and remediation guidance |
+| [`SECURITY.md`](SECURITY.md) | Formal security advisory with CVSS breakdown, misclassification notice, and remediation guidance |
+| [`.github/advisories/CVE-2026-4931.json`](.github/advisories/CVE-2026-4931.json) | Machine-readable OSV-format advisory with authoritative CVSS 9.1 Critical / AC:L scoring |
 | [`report-summary.md`](report-summary.md) | Extended narrative including the stealth patch and Cantina failure |
 | [`cantina_submission.txt`](cantina_submission.txt) | Original verbatim vulnerability report submitted to Cantina |
 | [`full_exploit_code.t.sol`](full_exploit_code.t.sol) | Foundry Solidity test demonstrating the arithmetic truncation |
